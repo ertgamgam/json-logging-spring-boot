@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <pattern>
+                    <pattern>
+                        {
+                        "time": "%d",
+                        "level": "%p",
+                        "facility": "JsonLoggerApp",
+                        "thread": "[%thread]",
+                        "request-uri": "%X{req.requestURI}",
+                        "request-method": "%X{req.method}",
+                        "correlationid": "%X{correlationid}",
+                        "source": "%logger{63}:%L",
+                        "message": "%m%wEx{6}"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
+    <springProfile name="default">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+</configuration>
